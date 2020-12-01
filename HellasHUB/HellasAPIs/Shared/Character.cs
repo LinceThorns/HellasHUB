@@ -15,24 +15,21 @@ namespace HellasAPIs.Shared
         /// <summary>
         /// SL user's UUID
         /// </summary>
-        public string SL_ID { get; set; }
-        /// <summary>
-        /// SL User Name
-        /// </summary>
-        public string SL_Name { get; set; }
-        /// <summary>
-        /// Name of the roleplaying Character
-        /// </summary>
-        public string IC_Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// Money of the character
         /// </summary>
-        public int MoneyId { get; set; }
-        [ForeignKey("MoneyId")]
-        public Money Money { get; set; }
+        public int Money { get; set; }
 
         public int StatId { get; set; }
         [ForeignKey("StatId")]
         public Stat Stat { get; set; }
+
+        public int AccountId { get; set; }
+        [ForeignKey("AccountId")]
+        public Account Account { get; set; }
+        public int OriginId { get; set; }
+        [ForeignKey("OriginId")]
+        public Origin Origin { get; set; }
     }
 }
