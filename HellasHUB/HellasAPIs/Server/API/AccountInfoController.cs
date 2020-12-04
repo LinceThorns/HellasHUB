@@ -18,36 +18,44 @@ namespace HellasAPIs.Server.API
         private Character character1;
         private string jsonString;
         private readonly HellasDbContext _dbContext;
-        public AccountInfoController(HellasDbContext dbContext)
+        private readonly LoggedUserService _loggedUser;
+
+        public AccountInfoController(HellasDbContext dbContext , LoggedUserService loggedUser)
         {
             _dbContext = dbContext;
+            _loggedUser = loggedUser;
         }
         // GET: api<AccountInfoController>
         [HttpGet]
         public string Get()
         {
-            jsonString = JsonSerializer.Serialize(character1);
+            jsonString = "do /(Account Name) at the end.";
             return jsonString;
         }
 
         // GET api/AccountInfo/5
         [HttpGet("{id}")]
+        //https://localhost:44390
         public string Get(string id)
         {
             if(_dbContext.Accounts.Where(x => x.AccUUID == id).Any() == true)
             {
-                return "Welcome back" + id;
+                string urlReturn = "https://localhost:44390/YourArea/" + _dbContext.Accounts.First(x => x.AccUUID == id).UniqueURL;
+                return urlReturn;
             }
             else
             {
+                string randomURL = _loggedUser.GenerateURL();
                 Account account = new Account()
                 {
                     AccName = "something",
-                    AccUUID = id
+                    AccUUID = id,
+                    UniqueURL=randomURL
                 };
                 _dbContext.Accounts.Add(account);
                 _dbContext.SaveChanges();
-                return "Welcome to Hellas, " + id;
+                string urlReturn = "https://localhost:44390/YourArea/" + account.UniqueURL;
+                return urlReturn;
             }
             
         }

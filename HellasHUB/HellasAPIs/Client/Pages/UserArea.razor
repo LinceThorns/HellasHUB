@@ -1,0 +1,64 @@
+﻿@page "/yourArea/{SLURL}"
+@inject HttpClient Http
+@if (AccountData.AccName == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h3>Welcome @AccountData.AccName</h3>
+}
+
+
+@code
+{
+    [Parameter]
+    public string SLURL { get; set; }
+
+    public Account AccountData { get; set; } = new Account();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        AccountData = await Http.GetFromJsonAsync<Account>($"api/account/{SLURL}");
+    }
+}
+
+
+@*
+    @if (accounts == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var account in accounts)
+                {
+                    <tr>
+                        <td>@account.AccountID.ToString()</td>
+                        <td>@account.AccountID</td>
+                        <td>@account.UniqueURL</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    @code {
+        private Account[] accounts;
+
+        protected override async Task OnInitializedAsync()
+        {
+            accounts = await Http.GetFromJsonAsync<Account[]>($"api/account");
+        }
+
+    }
+*@

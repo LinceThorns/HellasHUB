@@ -19,5 +19,6 @@ namespace HellasAPIs.Shared
         /// SL's acount name
         /// </summary>
         public string AccName { get; set; }
+        public string UniqueURL { get; set; }
     }
 }
